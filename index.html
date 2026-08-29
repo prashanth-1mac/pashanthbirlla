@@ -99,6 +99,14 @@ section{padding:84px 0;border-bottom:1px solid var(--line)}
 .tagrow{margin-top:11px;display:flex;flex-wrap:wrap;gap:6px}
 .tag{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--fog);border:1px solid var(--line);padding:3px 7px;border-radius:999px}
 
+/* ai divider */
+.ai-divider{position:relative;width:100%;height:220px;border-radius:10px;overflow:hidden;margin:40px 0;border:1px solid var(--line)}
+.ai-divider-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ai-divider-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,13,.55),rgba(10,10,13,.88))}
+.ai-divider-text{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px}
+.ai-divider-text h3{font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(22px,3.4vw,34px);letter-spacing:-0.02em;text-transform:uppercase;color:var(--paper);margin-top:8px}
+.ai-divider-text p{margin-top:10px;color:var(--fog);max-width:46ch;font-size:14px}
+
 /* about */
 .about{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:start;text-align:left}
 .about p{color:var(--fog);margin-bottom:15px;font-size:16px}
@@ -131,6 +139,7 @@ footer a:hover{color:var(--paper)}
 header{padding:56px 0 40px}
 section{padding:56px 0}
 .grid{grid-template-columns:1fr 1fr;gap:12px}
+.ai-divider{height:160px;margin:28px 0}
 .stats{grid-template-columns:repeat(2,1fr)}
 .stat{padding:20px 12px}
 .stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--line)}
@@ -201,6 +210,18 @@ section{padding:56px 0}
 <p>Raw footage, cut and paced by hand — no templates. Click any card to play with sound. Muted by default — nothing plays audio until you tap it.</p>
 </div>
 <div class="grid" id="workGrid"></div>
+
+<div class="ai-divider rv">
+<video class="ai-divider-bg" autoplay muted loop playsinline preload="auto"></video>
+<div class="ai-divider-overlay"></div>
+<div class="ai-divider-text">
+<span class="mono">also in the mix</span>
+<h3>AI generated content</h3>
+<p>Scripts, avatars and product ads generated with AI tools — directed, edited and finished by hand.</p>
+</div>
+</div>
+
+<div class="grid" id="aiGrid"></div>
 </div>
 </section>
 
@@ -244,22 +265,29 @@ section{padding:56px 0}
 
 <script>
 var VIDEO_BASE = "https://github.com/prashanth-1mac/pashanthbirlla/releases/download/portfolio-videos-tempportfolio-videos-temp/";
-var WORK = [
-{file:"work-01.mp4", title:"Reel — Cut & Paced", tags:["Editing","Pacing"]},
-{file:"work-02.mp4", title:"Short-Form Cutdown", tags:["Editing","Fast cuts"]},
-{file:"work-03.mp4", title:"Social Reel Edit", tags:["Editing","Transitions"]},
-{file:"work-04.mp4", title:"Reel — Music Sync", tags:["Editing","Sound design"]},
-{file:"work-05.mp4", title:"Edit — Color Graded", tags:["Editing","Color grade"]},
-{file:"work-06.mp4", title:"Short-Form Edit", tags:["Editing","Pacing"]},
-{file:"work.7.mp4", title:"Reel — Match Cuts", tags:["Editing","Transitions"]},
-{file:"work-08.mp4", title:"Edit — Motion Graphics", tags:["Editing","Motion"]},
-{file:"work-9.mp4", title:"Short-Form Edit", tags:["Editing","Fast cuts"]},
-{file:"work-10.mp4", title:"Reel — Cut & Paced", tags:["Editing","Pacing"]}
+var AI_LOOP_URL = "https://prashanth-1mac.github.io/pashanthbirlla/ai-watch-loop.mp4";
+
+// hand-edited by Prashanth — real footage, cut, graded and mixed by hand
+var WORK_EDIT = [
+{file:"work-05.mp4", title:"Reel — Sky High", tags:["Editing","Color grade"]},
+{file:"work-06.mp4", title:"Podcast Cutdown", tags:["Editing","Sound design"]},
+{file:"work.7.mp4", title:"Brand Ad Edit", tags:["Editing","Motion graphics"]},
+{file:"work-08.mp4", title:"Reality TV Edit", tags:["Editing","Pacing"]}
 ];
 
-(function(){
-var grid = document.getElementById('workGrid');
-WORK.forEach(function(item){
+// AI-generated content — scripted, generated and finished by Prashanth
+var WORK_AI = [
+{file:"work-01.mp4", title:"AI UGC — Supernova Demo", tags:["AI UGC","AI Generated"]},
+{file:"work-02.mp4", title:"AI UGC — Travel Companion", tags:["AI UGC","AI Generated"]},
+{file:"work-03.mp4", title:"AI UGC — City Commute", tags:["AI UGC","AI Generated"]},
+{file:"work-04.mp4", title:"AI UGC — Night Ride", tags:["AI UGC","AI Generated"]},
+{file:"work-9.mp4", title:"AI UGC — Trust Fall", tags:["AI UGC","AI Generated"]},
+{file:"work-10.mp4", title:"AI UGC — Homecoming", tags:["AI UGC","AI Generated"]}
+];
+
+function renderGrid(gridId, items){
+var grid = document.getElementById(gridId);
+items.forEach(function(item){
 var card = document.createElement('div');
 card.className = 'card rv';
 var tagsHtml = item.tags.map(function(t){return '<span class="tag">'+t+'</span>'}).join('');
@@ -298,6 +326,20 @@ frame.classList.remove('loading');
 }
 });
 });
+}
+
+renderGrid('workGrid', WORK_EDIT);
+renderGrid('aiGrid', WORK_AI);
+
+(function(){
+var bg = document.querySelector('.ai-divider-bg');
+if(bg){
+var src = document.createElement('source');
+src.src = AI_LOOP_URL;
+src.type = 'video/mp4';
+bg.appendChild(src);
+bg.load();
+}
 })();
 
 // scroll reveal
