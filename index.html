@@ -269,6 +269,368 @@ var AI_LOOP_URL = "https://prashanth-1mac.github.io/pashanthbirlla/ai-watch-loop
 
 // hand-edited by Prashanth — real footage, cut, graded and mixed by hand
 var WORK_EDIT = [
+{file:"https://github.com/user-attachments/assets/a361339b-7d0b-4fad-921f-8397177540d5", title:"Devin Jatho — Brand Film", tags:["Cinematic edit","Color grading","Beat sync"]},
+{file:"https://github.com/user-attachments/assets/f1b3aef2-a221-48f7-acb0-39f3e92c5ded", title:"Reels/Shorts Edit", tags:["Short-form","Fast cuts","Hook-first"]},
+{file:"https://github.com/user-attachments/assets/330d0a5a-d45a-4d4d-872e-09de63f212dd", title:"Social Media Promo Edit", tags:["Social promo","Transitions","On-brand"]},
+{file:"https://github.com/user-attachments/assets/408bf555-0082-481e-ac06-5e2450943b7d", title:"Softnix Company Promo", tags:["Brand ad","Corporate","Brand visual"]}
+];
+
+// AI-generated content — scripted, generated and finished by Prashanth
+var WORK_AI = [
+{file:"work-01.mp4", title:"AI UGC — Supernova Demo", tags:["AI UGC","AI Generated"]},
+{file:"work-02.mp4", title:"AI UGC — Travel Companion", tags:["AI UGC","AI Generated"]},
+{file:"work-03.mp4", title:"AI UGC — City Commute", tags:["AI UGC","AI Generated"]},
+{file:"work-04.mp4", title:"AI UGC — Night Ride", tags:["AI UGC","AI Generated"]},
+{file:"work-9.mp4", title:"AI UGC — Trust Fall", tags:["AI UGC","AI Generated"]},
+{file:"work-10.mp4", title:"AI UGC — Homecoming", tags:["AI UGC","AI Generated"]},
+{file:"work-05.mp4", title:"AI UGC — Sky High Reel", tags:["AI UGC","AI Generated"]},
+{file:"work-06.mp4", title:"AI UGC — Podcast Style Cut", tags:["AI UGC","AI Generated"]},
+{file:"work.7.mp4", title:"AI UGC — Brand Style Ad", tags:["AI UGC","AI Generated"]},
+{file:"work-08.mp4", title:"AI UGC — Reality Style Edit", tags:["AI UGC","AI Generated"]}
+];
+
+function renderGrid(gridId, items){
+var grid = document.getElementById(gridId);
+items.forEach(function(item){
+var card = document.createElement('div');
+card.className = 'card rv';
+var tagsHtml = item.tags.map(function(t){return '<span class="tag">'+t+'</span>'}).join('');
+card.innerHTML =
+'<div class="frame">'+
+'<video muted playsinline preload="metadata">'+
+'<source src="'+(item.file.indexOf('http')===0?item.file:VIDEO_BASE+item.file)+'" type="video/mp4">'+
+'</video>'+
+'<button class="playbtn" aria-label="Play '+item.title+' with sound">'+
+'<svg viewBox="0 0 24 24" fill="#0A0A0D"><path d="M8 5v14l11-7z"/></svg>'+
+'</button>'+
+'<div class="spin"></div>'+
+'</div>'+
+'<div class="card-body">'+
+'<h3>'+item.title+'</h3>'+
+'<div class="tagrow">'+tagsHtml+'</div>'+
+'</div>';
+grid.appendChild(card);
+
+var frame = card.querySelector('.frame');
+var vid = card.querySelector('video');
+var btn = card.querySelector('.playbtn');
+btn.addEventListener('click', function(e){
+e.stopPropagation();
+frame.classList.add('loading');
+vid.muted = false;
+vid.controls = true;
+var playPromise = vid.play();
+if(playPromise){
+playPromise.then(function(){
+frame.classList.remove('loading');
+frame.classList.add('playing');
+}).catch(function(){
+frame.classList.remove('loading');
+});
+}
+});
+});
+}
+
+renderGrid('workGrid', WORK_EDIT);
+renderGrid('aiGrid', WORK_AI);
+
+(function(){
+var bg = document.querySelector('.ai-divider-bg');
+if(bg){
+var src = document.createElement('source');
+src.src = AI_LOOP_URL;
+src.type = 'video/mp4';
+bg.appendChild(src);
+bg.load();
+}
+})();
+
+// scroll reveal
+(function(){
+var els=document.querySelectorAll('.rv');
+if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+var io=new IntersectionObserver(function(entries){
+entries.forEach(function(en){
+if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}
+});
+},{threshold:.12});
+els.forEach(function(e){io.observe(e)});
+})();
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prashanth Birlla — Video Editor</title>
+<meta name="description" content="Prashanth Birlla — video editor and AI content creator. Cinematic edits, AI UGC ads and high-retention short-form content.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+--ink:#0A0A0D;
+--panel:#141417;
+--card:#18181C;
+--line:#2A2A30;
+--fog:#9A9AA6;
+--paper:#F3F3F1;
+--flame:#FF5B3D;
+--flame-soft:#3A2119;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+background:var(--ink);
+color:var(--paper);
+font-family:'Inter',system-ui,sans-serif;
+font-size:16px;
+line-height:1.6;
+-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.display{font-family:'Archivo',sans-serif;font-weight:800;letter-spacing:-0.03em;line-height:0.96;text-transform:uppercase}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--fog)}
+
+/* nav */
+nav{position:sticky;top:0;z-index:50;background:rgba(10,10,13,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;justify-content:space-between;align-items:center;height:64px}
+.logo{font-family:'Archivo',sans-serif;font-weight:800;letter-spacing:-0.02em;font-size:17px;color:var(--paper);text-decoration:none}
+.nav-links{display:flex;gap:30px;align-items:center}
+.nav-links a{color:var(--fog);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--paper)}
+.nav-cta{background:var(--flame);color:#fff!important;padding:10px 20px;border-radius:999px;font-size:13px!important;font-weight:600}
+.nav-cta:hover{background:#ff7657}
+
+/* hero */
+header{padding:88px 0 80px}
+.avail{display:inline-flex;align-items:center;gap:8px;margin-bottom:24px;background:var(--flame-soft);border:1px solid #4A2A1E;padding:6px 12px 6px 10px;border-radius:999px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--flame);box-shadow:0 0 0 3px rgba(255,91,61,.25)}
+.avail span.mono{color:#FFB199}
+h1.display{font-size:clamp(40px,7vw,84px);color:var(--paper);text-align:center}
+h1.display em{font-style:normal;color:var(--flame)}
+header .wrap{display:flex;flex-direction:column;align-items:center;text-align:center}
+.sub{margin-top:24px;font-size:18px;color:var(--fog);max-width:56ch;line-height:1.7}
+.hero-btns{margin-top:34px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;font-size:15px;padding:14px 26px;border-radius:999px;transition:background .2s,color .2s,border-color .2s}
+.btn-p{background:var(--flame);color:#fff}
+.btn-p:hover{background:#ff7657}
+.btn-s{border:1px solid #34343B;color:var(--paper)}
+.btn-s:hover{border-color:var(--fog)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat{padding:30px 20px;border-right:1px solid var(--line);text-align:center}
+.stat:last-child{border-right:none}
+.stat .n{font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(24px,4vw,38px);letter-spacing:-0.03em;line-height:1;color:var(--flame)}
+.stat .l{margin-top:7px;font-size:12px;color:var(--fog);line-height:1.35}
+
+/* sections */
+section{padding:84px 0;border-bottom:1px solid var(--line)}
+.sec-head{margin-bottom:40px;text-align:center}
+.sec-head h2{font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(28px,4.4vw,46px);letter-spacing:-0.03em;line-height:1.05;margin-top:10px;text-transform:uppercase;color:var(--paper)}
+.sec-head p{margin:16px auto 0;color:var(--fog);max-width:52ch}
+
+/* skills */
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+.skill{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:26px;transition:transform .2s,border-color .2s}
+.skill:hover{transform:translateY(-4px);border-color:#45454E}
+.skill .ico{font-size:26px}
+.skill h3{margin-top:14px;font-family:'Archivo',sans-serif;font-weight:700;font-size:16px;letter-spacing:-0.01em;color:var(--paper)}
+.skill p{margin-top:8px;font-size:13.5px;color:var(--fog);line-height:1.6}
+
+/* work grid */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;transition:border-color .2s,transform .2s}
+.card:hover{border-color:#45454E;transform:translateY(-3px)}
+.frame{position:relative;width:100%;aspect-ratio:9/16;background:#0F0F12;cursor:pointer}
+.frame video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.playbtn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s;border:none}
+.playbtn:hover{transform:translate(-50%,-50%) scale(1.06)}
+.playbtn svg{width:18px;height:18px;margin-left:2px}
+.frame.playing .playbtn{opacity:0;pointer-events:none}
+.frame .spin{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;animation:spin .8s linear infinite;display:none}
+.frame.loading .spin{display:block}
+.frame.loading .playbtn{display:none}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.card-body{padding:16px}
+.card-body h3{font-size:14px;font-weight:600;letter-spacing:-0.01em;color:var(--paper)}
+.tagrow{margin-top:11px;display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--fog);border:1px solid var(--line);padding:3px 7px;border-radius:999px}
+
+/* ai divider */
+.ai-divider{position:relative;width:100%;height:220px;border-radius:10px;overflow:hidden;margin:40px 0;border:1px solid var(--line)}
+.ai-divider-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ai-divider-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,13,.55),rgba(10,10,13,.88))}
+.ai-divider-text{position:relative;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px}
+.ai-divider-text h3{font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(22px,3.4vw,34px);letter-spacing:-0.02em;text-transform:uppercase;color:var(--paper);margin-top:8px}
+.ai-divider-text p{margin-top:10px;color:var(--fog);max-width:46ch;font-size:14px}
+
+/* about */
+.about{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:start;text-align:left}
+.about p{color:var(--fog);margin-bottom:15px;font-size:16px}
+.about p strong{color:var(--paper);font-weight:600}
+.stack{border:1px solid var(--line);background:var(--card);padding:26px;border-radius:10px}
+.stack h4{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fog);margin-bottom:18px}
+.stack ul{list-style:none;display:flex;flex-direction:column;gap:12px}
+.stack li{display:flex;justify-content:space-between;font-size:14px;border-bottom:1px dotted var(--line);padding-bottom:12px;color:var(--paper)}
+.stack li:last-child{border:none;padding-bottom:0}
+.stack li span:last-child{color:var(--fog);font-size:13px}
+
+/* cta */
+.cta{background:linear-gradient(160deg,#1a1210,var(--ink));padding:90px 0;border:none;text-align:center}
+.cta h2{font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(30px,5.5vw,54px);letter-spacing:-0.035em;line-height:1.05;text-transform:uppercase;max-width:20ch;margin:0 auto;color:var(--paper)}
+.cta p{margin:20px auto 0;color:var(--fog);max-width:48ch}
+.btns{margin-top:34px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+
+footer{padding:28px 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+footer,footer a{font-size:13px;color:var(--fog);text-decoration:none}
+footer a:hover{color:var(--paper)}
+
+.rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+
+@media(max-width:900px){
+.grid{grid-template-columns:repeat(2,1fr)}
+.about{grid-template-columns:1fr;gap:34px}
+}
+@media(max-width:620px){
+header{padding:56px 0 40px}
+section{padding:56px 0}
+.grid{grid-template-columns:1fr 1fr;gap:12px}
+.ai-divider{height:160px;margin:28px 0}
+.stats{grid-template-columns:repeat(2,1fr)}
+.stat{padding:20px 12px}
+.stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--line)}
+.nav-links a:not(.nav-cta){display:none}
+}
+@media(prefers-reduced-motion:reduce){
+*{animation:none!important;transition:none!important}
+.rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+<div class="wrap nav-in">
+<a href="#" class="logo">Prashanth<span style="color:var(--flame)">.</span></a>
+<div class="nav-links">
+<a href="#work">Work</a>
+<a href="#about">About</a>
+<a href="#contact" class="nav-cta">Contact</a>
+</div>
+</div>
+</nav>
+
+<header>
+<div class="wrap">
+<div class="avail rv"><span class="dot"></span><span class="mono">Available for freelance</span></div>
+<h1 class="display rv">Prashanth <em>Birlla</em></h1>
+<p class="sub rv">Video editor first. I cut, pace and grade raw footage into content that keeps people watching — plus AI UGC ads, reels and high-retention short-form content for brands and creators.</p>
+<div class="hero-btns rv">
+<a class="btn btn-p" href="#contact">Contact me</a>
+<a class="btn btn-s" href="#work">View work</a>
+</div>
+</div>
+</header>
+
+<div class="wrap">
+<div class="stats">
+<div class="stat"><div class="n">2+</div><div class="l">Years experience</div></div>
+<div class="stat"><div class="n">50+</div><div class="l">Videos delivered</div></div>
+<div class="stat"><div class="n">7-Fig</div><div class="l">Company experience</div></div>
+<div class="stat"><div class="n">100%</div><div class="l">Client satisfaction</div></div>
+</div>
+</div>
+
+<section id="skills">
+<div class="wrap">
+<div class="sec-head rv">
+<span class="mono">what i do</span>
+<h2>Skills &amp; services</h2>
+</div>
+<div class="skills rv">
+<div class="skill"><div class="ico">✂️</div><h3>Video editing</h3><p>Cutting, pacing and match cuts that turn raw footage into a story people actually watch.</p></div>
+<div class="skill"><div class="ico">🎨</div><h3>Color grading</h3><p>Color correction and grading for a consistent, cinematic look across every shot.</p></div>
+<div class="skill"><div class="ico">🔊</div><h3>Sound design</h3><p>Music sync, sound effects and clean audio mixing so the edit lands on rhythm.</p></div>
+<div class="skill"><div class="ico">🎬</div><h3>Motion graphics</h3><p>Titles, captions and on-screen graphics that support the edit instead of distracting from it.</p></div>
+<div class="skill"><div class="ico">📱</div><h3>Short-form editing</h3><p>Reels, TikToks and Shorts cut for fast hooks and retention.</p></div>
+<div class="skill"><div class="ico">🤖</div><h3>AI content</h3><p>AI UGC ads, AI visuals, voiceovers and scripts — edited with the same care as live footage.</p></div>
+</div>
+</div>
+</section>
+
+<section id="work">
+<div class="wrap">
+<div class="sec-head rv">
+<span class="mono">selected work</span>
+<h2>Edits I've cut</h2>
+<p>Raw footage, cut and paced by hand — no templates. Click any card to play with sound. Muted by default — nothing plays audio until you tap it.</p>
+</div>
+<div class="grid" id="workGrid"></div>
+
+<div class="ai-divider rv">
+<video class="ai-divider-bg" autoplay muted loop playsinline preload="auto"></video>
+<div class="ai-divider-overlay"></div>
+<div class="ai-divider-text">
+<span class="mono">also in the mix</span>
+<h3>AI generated content</h3>
+<p>Scripts, avatars and product ads generated with AI tools — directed, edited and finished by hand.</p>
+</div>
+</div>
+
+<div class="grid" id="aiGrid"></div>
+</div>
+</section>
+
+<section id="about">
+<div class="wrap about">
+<div class="rv">
+<span class="mono">about me</span>
+<h2 style="font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(26px,4vw,42px);letter-spacing:-0.03em;line-height:1.05;margin:10px 0 22px;text-transform:uppercase;color:var(--paper)">My story</h2>
+<p>I'm <strong>Prashanth Birlla</strong> — a video editor based in India. Editing is the main thing I do: cutting footage on rhythm, grading for a consistent look, mixing sound and building the pacing that keeps a viewer in the frame. AI content and short-form ads come after that, using the same editing instincts.</p>
+<p>Currently working with <strong>Supernova AI</strong> while managing content strategy, editing workflows and creative production.</p>
+</div>
+<div class="stack rv">
+<h4>The toolkit</h4>
+<ul>
+<li><span>Premiere Pro</span><span>Cutting</span></li>
+<li><span>DaVinci Resolve</span><span>Color grade</span></li>
+<li><span>After Effects</span><span>Motion graphics</span></li>
+<li><span>Audition</span><span>Sound design</span></li>
+</ul>
+</div>
+</div>
+</section>
+
+<section class="cta" id="contact">
+<div class="wrap">
+<h2>Let's work together</h2>
+<p>Have a project in mind? Let's create content that gets attention and results.</p>
+<div class="btns">
+<a class="btn btn-p" href="mailto:prashanthbirla@gmail.com">Email me</a>
+<a class="btn btn-s" href="https://wa.me/918074630646">WhatsApp</a>
+</div>
+</div>
+</section>
+
+<div class="wrap">
+<footer>
+<span>Prashanth Birlla — Video Editor</span>
+<span><a href="mailto:prashanthbirla@gmail.com">prashanthbirla@gmail.com</a></span>
+</footer>
+</div>
+
+<script>
+var VIDEO_BASE = "https://github.com/prashanth-1mac/pashanthbirlla/releases/download/portfolio-videos-tempportfolio-videos-temp/";
+var AI_LOOP_URL = "https://prashanth-1mac.github.io/pashanthbirlla/ai-watch-loop.mp4";
+
+// hand-edited by Prashanth — real footage, cut, graded and mixed by hand
+var WORK_EDIT = [
 {file:"work-05.mp4", title:"Reel — Sky High", tags:["Editing","Color grade"]},
 {file:"work-06.mp4", title:"Podcast Cutdown", tags:["Editing","Sound design"]},
 {file:"work.7.mp4", title:"Brand Ad Edit", tags:["Editing","Motion graphics"]},
